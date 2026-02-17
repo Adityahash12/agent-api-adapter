@@ -2,6 +2,14 @@
 
 This tool automatically generates **adapter code** that converts messy API responses into a clean JSON schema agents can understand.  
 It’s perfect for agent builders who don’t want to write custom integration code.
+## Why This Matters
+
+AI agents (OpenClaw, LangChain, AutoGPT, etc.) break when APIs have inconsistent responses.  
+This project:
+- Automatically maps fields
+- Suggests intelligent mappings
+- Outputs validated JSON
+- Saves hours of integration work
 
 # Agent API Adapter
 
