@@ -1,117 +1,69 @@
-## Agent API Adapter — Make Any API Work With Autonomous AI Agents
+# Agent API Adapter 🚀  
+### Make Any API Work With Autonomous AI Agents
 
-This tool automatically generates **adapter code** that converts messy API responses into a clean JSON schema agents can understand.  
-It’s perfect for agent builders who don’t want to write custom integration code.
-## Why This Matters
+Agent API Adapter automatically converts **messy API responses** into a **clean, predictable JSON schema** that AI agents can reliably understand.
 
-AI agents (OpenClaw, LangChain, AutoGPT, etc.) break when APIs have inconsistent responses.  
-This project:
-- Automatically maps fields
-- Suggests intelligent mappings
-- Outputs validated JSON
-- Saves hours of integration work
-
-# Agent API Adapter
-
-Translate any API response into an agent-friendly JSON schema automatically.
-
-**Status:** MVP complete. Works end-to-end. Actively looking for early users and feedback.
-
-## What problem does this solve?
-
-APIs are inconsistent. AI agents need predictable, agent-friendly JSON schemas to reason, plan, and act. This adapter bridges the gap between messy real-world APIs and structured agent workflows.
-
-## Quick Start
-
-1. Install dependencies:
-	 ```sh
-	 npm install
-	 ```
-2. Start the server:
-	 ```sh
-	 npm start
-	 ```
-
-## Example Request/Response
-
-### 1. Generate a mapping config
-
-```sh
-curl -X POST http://localhost:3000/generate \
-	-H "Content-Type: application/json" \
-	-d '{
-		"sampleApiResponse": {"temp_c":32,"hum":75,"city_name":"Bangalore"},
-		"targetSchema": {
-			"type": "object",
-			"properties": {
-				"temperature": { "type": "number" },
-				"humidity": { "type": "number" },
-				"city": { "type": "string" }
-			},
-			"required": ["temperature", "humidity", "city"]
-		}
-	}'
-```
-
-**Response:**
-```json
-{
-	"mappingConfig": {
-		"temperature": "temp_c",
-		"humidity": "hum",
-		"city": "city_name"
-	}
-}
-```
-
-### 2. Transform and validate
-
-```sh
-curl -X POST http://localhost:3000/transform \
-	-H "Content-Type: application/json" \
-	-d '{
-		"rawApiResponse": {"temp_c":32,"hum":75,"city_name":"Bangalore"},
-		"mappingConfig": {"temperature":"temp_c","humidity":"hum","city":"city_name"},
-		"targetSchema": {
-			"type": "object",
-			"properties": {
-				"temperature": { "type": "number" },
-				"humidity": { "type": "number" },
-				"city": { "type": "string" }
-			},
-			"required": ["temperature", "humidity", "city"]
-		}
-	}'
-```
-
-**Response:**
-```json
-{
-	"transformed": {
-		"temperature": 32,
-		"humidity": 75,
-		"city": "Bangalore"
-	},
-	"validation": {
-		"valid": true,
-		"errors": null
-	}
-}
-```
-
-## Why is this useful for autonomous agents?
-
-- Ensures predictable, validated data for downstream reasoning
-- Reduces manual integration work
-- Enables rapid prototyping and scaling of agent skills
-
-## Roadmap
-
-- [x] Naive mapping (exact, lowercase, partial match)
-- [ ] Synonym/semantic mapping
-- [ ] LLM-assisted mapping
-- [ ] Hosted API & dashboard
-- [ ] Demo GIF & screenshots
+It removes one of the biggest pain points in agent development:  
+👉 **writing custom integration code for every API**.
 
 ---
-MIT License
+
+## ✨ What This Does
+
+AI agents (OpenClaw, LangChain, AutoGPT-style agents, etc.) often break because:
+- APIs return inconsistent field names
+- Schemas are undocumented or unstable
+- Each API needs custom glue code
+
+**Agent API Adapter solves this by:**
+- Automatically mapping fields from raw API responses
+- Using fuzzy matching (for example: `temp_c → temperature`)
+- Transforming responses into a clean target schema
+- Validating output using JSON Schema
+
+No manual mapping. No hardcoded integrations.
+
+---
+
+## ✅ Current Status
+
+✔ MVP complete  
+✔ Works end-to-end  
+✔ Fuzzy matching implemented  
+✔ JSON schema validation included  
+✔ Demo tested locally  
+
+🚀 **Actively looking for early users and feedback**
+
+---
+
+## 🧠 Why This Matters for AI Agents
+
+Autonomous agents need:
+- Predictable inputs
+- Stable schemas
+- Zero human intervention
+
+Real-world APIs are messy.  
+Agents are strict.
+
+This project acts as a **translation layer** between messy APIs and structured agent workflows.
+
+---
+
+## 🔍 What Problem Does This Solve?
+
+APIs are inconsistent.  
+AI agents need **agent-friendly JSON schemas** to reason, plan, and act.
+
+This adapter bridges the gap between:
+- 🧱 Messy real-world APIs  
+- 🤖 Structured autonomous agent systems  
+
+---
+
+## ⚡ Quick Start
+
+### 1. Install dependencies
+```sh
+npm install
