@@ -14,9 +14,8 @@ POST /transform
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const { adapt } = require('./adapter');
-const { validate } = require('./validator');
 const { guessMapping } = require('./mapping');
+const { transform } = require('./transform');
 
 const app = express();
 app.use(bodyParser.json());
@@ -32,12 +31,12 @@ app.post('/generate', (req, res) => {
 
 app.post('/transform', (req, res) => {
 	const { rawApiResponse, mappingConfig, targetSchema } = req.body;
-	if (!rawApiResponse || !mappingConfig || !targetSchema) {
-		return res.status(400).json({ error: 'rawApiResponse, mappingConfig, and targetSchema are required' });
+	try {
+		const result = transform(rawApiResponse, mappingConfig, targetSchema);
+		res.json(result);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
 	}
-	const transformed = adapt(rawApiResponse, mappingConfig);
-	const validation = validate(targetSchema, transformed);
-	res.json({ transformed, validation });
 });
 
 const PORT = process.env.PORT || 3000;

@@ -8,12 +8,14 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "mcp": "node mcp-server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
     "ajv": "^8.18.0",
     "express": "^5.2.1",
     "string-similarity": "^4.0.4"
