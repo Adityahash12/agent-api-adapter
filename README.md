@@ -101,6 +101,13 @@ This project provides an **MCP-compatible tool definition** so agent frameworks 
 
 For Phase 1 integration, use the included `mcp-tool.js` which defines the `api_transform` tool schema. Agent hosts (Claude Desktop, OpenClaw, etc.) can register this tool and route invocations to the REST `/transform` endpoint.
 
+### 🔰 Current Status
+
+- ❇ REST /generate & /transform – fully working  
+- ❇ MCP tool *defined* (tools.json / SKILL.md)  
+- ⚠ Not a standalone MCP runtime server yet
+
+
 ### How to use the tool definition
 
 1. Provide `mcp-tool.js` to your agent host or registry.
