@@ -3,6 +3,8 @@
 
 Translate any API response into an agent-friendly JSON schema automatically.
 
+**Status:** MVP complete. Works end-to-end. Actively looking for early users and feedback.
+
 ## What problem does this solve?
 
 APIs are inconsistent. AI agents need predictable, agent-friendly JSON schemas to reason, plan, and act. This adapter bridges the gap between messy real-world APIs and structured agent workflows.
