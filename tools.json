@@ -1,0 +1,48 @@
+{
+  "tools": [
+    {
+      "name": "api_transform",
+      "description": "Transforms messy third-party API responses into a clean, validated, agent-friendly JSON schema.",
+      "inputs": {
+        "rawApiResponse": {
+          "type": "object",
+          "description": "The raw JSON response returned by an external API"
+        },
+        "mappingConfig": {
+          "type": "object",
+          "description": "Mapping from target schema fields to raw API keys"
+        },
+        "targetSchema": {
+          "type": "object",
+          "description": "JSON Schema defining the desired agent-friendly output"
+        }
+      },
+      "execution": {
+        "type": "rest",
+        "endpoint": "POST /transform",
+        "baseUrl": "http://localhost:3000"
+      },
+      "example": {
+        "rawApiResponse": {
+          "temp_c": 32,
+          "hum": 75,
+          "city_name": "Bangalore"
+        },
+        "mappingConfig": {
+          "temperature": "temp_c",
+          "humidity": "hum",
+          "city": "city_name"
+        },
+        "targetSchema": {
+          "type": "object",
+          "properties": {
+            "temperature": { "type": "number" },
+            "humidity": { "type": "number" },
+            "city": { "type": "string" }
+          },
+          "required": ["temperature", "humidity", "city"]
+        }
+      }
+    }
+  ]
+}
