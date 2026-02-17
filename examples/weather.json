@@ -1,0 +1,16 @@
+{
+  "sampleApiResponse": {
+    "temp_c": 32,
+    "hum": 75,
+    "city_name": "Bangalore"
+  },
+  "targetSchema": {
+    "type": "object",
+    "properties": {
+      "temperature": { "type": "number" },
+      "humidity": { "type": "number" },
+      "city": { "type": "string" }
+    },
+    "required": ["temperature", "humidity", "city"]
+  }
+}
