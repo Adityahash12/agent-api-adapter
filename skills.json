@@ -1,0 +1,165 @@
+{
+  "skill": {
+    "id": "api-adapter",
+    "name": "API Adapter",
+    "version": "1.0.0",
+    "author": "Aditya Sarkar",
+    "license": "MIT",
+    "description": "Translates messy third-party API responses into clean, agent-ready JSON schemas automatically.",
+    "shortDescription": "Normalize any API response to match your agent's schema",
+    "category": "data-transformation",
+    "tags": ["api", "integration", "schema", "validation", "data-normalization"],
+    "capabilities": [
+      "fuzzy-field-matching",
+      "json-schema-validation",
+      "mcp-compatible",
+      "error-handling"
+    ],
+    "entryPoints": {
+      "rest": {
+        "type": "http",
+        "baseUrl": "http://localhost:3000",
+        "endpoints": [
+          {
+            "method": "POST",
+            "path": "/generate",
+            "description": "Generate mapping config from sample API response"
+          },
+          {
+            "method": "POST",
+            "path": "/transform",
+            "description": "Transform raw API response using mapping and schema"
+          }
+        ]
+      },
+      "mcp": {
+        "type": "stdio",
+        "command": "node mcp-server.js",
+        "tools": ["api_transform"]
+      }
+    },
+    "tools": [
+      {
+        "name": "api_transform",
+        "type": "transform",
+        "description": "Transform raw API response into validated target schema",
+        "inputs": [
+          {
+            "name": "rawApiResponse",
+            "type": "object",
+            "required": true,
+            "description": "The unprocessed API response object"
+          },
+          {
+            "name": "mappingConfig",
+            "type": "object",
+            "required": true,
+            "description": "Field mapping configuration: {targetField: sourceField, ...}"
+          },
+          {
+            "name": "targetSchema",
+            "type": "object",
+            "required": true,
+            "description": "JSON Schema defining the expected output structure"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "transformed",
+            "type": "object",
+            "description": "The mapped and validated API response"
+          },
+          {
+            "name": "validation",
+            "type": "object",
+            "description": "Validation result: {valid: boolean, errors: array}"
+          }
+        ]
+      },
+      {
+        "name": "generate_mapping",
+        "type": "discovery",
+        "description": "Auto-detect field mappings from sample API response",
+        "inputs": [
+          {
+            "name": "sampleApiResponse",
+            "type": "object",
+            "required": true,
+            "description": "Example API response to analyze"
+          },
+          {
+            "name": "targetSchema",
+            "type": "object",
+            "required": true,
+            "description": "Target schema to match against"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "mappingConfig",
+            "type": "object",
+            "description": "Auto-generated field mapping configuration"
+          }
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "@modelcontextprotocol/sdk",
+        "version": "^1.0.0",
+        "optional": true
+      },
+      {
+        "name": "express",
+        "version": "^5.2.1",
+        "optional": false
+      },
+      {
+        "name": "ajv",
+        "version": "^8.18.0",
+        "optional": false
+      },
+      {
+        "name": "string-similarity",
+        "version": "^4.0.4",
+        "optional": false
+      }
+    ],
+    "performance": {
+      "latencyMs": 5,
+      "throughputPerSec": 10000,
+      "memoryMb": 10
+    },
+    "compatibility": {
+      "agents": [
+        "claude",
+        "langchain",
+        "crewai",
+        "autogpt",
+        "custom"
+      ],
+      "frameworks": [
+        "mcp",
+        "rest",
+        "node.js"
+      ],
+      "nodejs": ">=16.0.0"
+    },
+    "pricing": {
+      "model": "open-source",
+      "cost": 0,
+      "currency": "USD",
+      "commercialUse": true
+    },
+    "support": {
+      "documentation": "https://github.com/Adityahash12/agent-api-adapter#skill-api-adapter",
+      "repositoryUrl": "https://github.com/Adityahash12/agent-api-adapter",
+      "issuesUrl": "https://github.com/Adityahash12/agent-api-adapter/issues",
+      "level": "community"
+    },
+    "installation": {
+      "npm": "git clone https://github.com/Adityahash12/agent-api-adapter.git && cd agent-api-adapter && npm install",
+      "docker": "FUTURE"
+    }
+  }
+}

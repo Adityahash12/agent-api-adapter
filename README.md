@@ -5,6 +5,8 @@ Translate any API response into an agent-friendly JSON schema automatically.
 
 **Status:** MVP complete. Works end-to-end. Actively looking for early users and feedback.
 
+📖 **[Read the Skill Documentation](SKILL.md)** — Detailed guide on using this as an agent skill.
+
 ## What problem does this solve?
 
 APIs are inconsistent. AI agents need predictable, agent-friendly JSON schemas to reason, plan, and act. This adapter bridges the gap between messy real-world APIs and structured agent workflows.
@@ -136,6 +138,19 @@ Both interfaces coexist:
 - **MCP:** `npm run mcp` → Stdio transport
 
 Both call the same core `transform()` function from `transform.js`.
+
+---
+
+## 🛒 Using as a Marketplace Skill
+
+This project is built to be listed as a purchasable/distributable **agent skill**.
+
+- **Skill Manifest:** [skills.json](skills.json) - Use this for skill registries
+- **Skill Documentation:** [SKILL.md](SKILL.md) - Detailed skill guide for agents
+
+Compatible with skill marketplaces and agent skill discovery systems.
+
+---
 
 ## Roadmap
 
