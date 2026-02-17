@@ -151,18 +151,40 @@ const response = await fetch('http://localhost:3000/transform', {
 
 ### For MCP-Compatible Agents (Claude, etc.)
 
+Phase 1: this repository ships a discoverable tool definition (`mcp-tool.js`) that describes the `api_transform` tool (name, description and input schema). Agent hosts (Claude Desktop, other MCP runners) can register the tool manifest for discovery and route execution to the adapter's REST endpoint.
+
+Example Claude Desktop / local tool registration (add to your tools config):
+
 ```json
 {
-  "mcpServers": {
-    "agent-api-adapter": {
-      "command": "node",
-      "args": ["path/to/mcp-server.js"]
+  "tools": [
+    {
+      "name": "api_transform",
+      "description": "Transform raw API responses into a validated target JSON schema.",
+      "type": "http",
+      "url": "http://localhost:3000/transform",
+      "method": "POST",
+      "headers": { "Content-Type": "application/json" },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "rawApiResponse": { "type": "object" },
+          "mappingConfig": { "type": "object" },
+          "targetSchema": { "type": "object" }
+        },
+        "required": ["rawApiResponse", "mappingConfig", "targetSchema"]
+      }
     }
-  }
+  ]
 }
 ```
 
-Then invoke the `api_transform` tool directly from your agent.
+How it works:
+- Register the `api_transform` tool manifest in your agent host (Claude Desktop or other MCP runner).
+- When the agent calls the tool, the host will POST the tool input to `http://localhost:3000/transform` and return the `transformed` + `validation` object to the agent.
+
+Notes:
+- Phase 2 may add a hosted MCP runtime. For Phase 1, execution is delegated to the REST server so you can deploy the adapter behind any HTTP ingress, add auth, and monitor usage.
 
 ### For LangChain / CrewAI
 
