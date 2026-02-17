@@ -97,27 +97,17 @@ curl -X POST http://localhost:3000/transform \
 
 ## MCP Interface (Model Context Protocol)
 
-This project includes an **MCP-compatible server** so AI agents can discover and invoke the transformation tool automatically.
+This project provides an **MCP-compatible tool definition** so agent frameworks can discover the `api_transform` tool. Execution is currently delegated to the REST API; native MCP runtime hosting is planned for the future.
 
-### Running the MCP Server
+For Phase 1 integration, use the included `mcp-tool.js` which defines the `api_transform` tool schema. Agent hosts (Claude Desktop, OpenClaw, etc.) can register this tool and route invocations to the REST `/transform` endpoint.
 
-```sh
-npm run mcp
-```
+### How to use the tool definition
 
-This starts an MCP server on stdio that:
-- Exposes a single tool: `api_transform`
-- Accepts rawApiResponse, mappingConfig, targetSchema
-- Returns transformed JSON + validation results
-- Uses the **exact same logic** as the REST API (no duplication)
+1. Provide `mcp-tool.js` to your agent host or registry.
+2. The tool declares inputs: `rawApiResponse`, `mappingConfig`, and `targetSchema`.
+3. When invoked, execution should call the REST endpoint `POST /transform` on this service.
 
-### Integration with Claude / OpenAI Agents
-
-The MCP server runs on stdio, making it compatible with:
-- Claude Desktop (via claude_desktop_config.json)
-- OpenAI APIs with tool use
-- Any agent framework supporting MCP
-
+This approach keeps a single source of execution (the REST API) while making the tool discoverable to MCP-compatible hosts.
 Example configuration for Claude Desktop:
 
 ```json
